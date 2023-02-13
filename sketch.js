@@ -26,8 +26,10 @@ var iconWidth = 10;
 var iconHeight = 10;
 var poiPoints = [];
 let pg;
+let resized=false;
 
 //
+
 function preload() {
   data = loadJSON("assets/data.json");
   //cali=loadJSON("assets/csvjson.json");
@@ -38,7 +40,9 @@ function preload() {
 
 function setup() {
  
+
   canvas = createCanvas(windowWidth, windowHeight);
+
   pg = createGraphics(windowWidth/4, windowHeight);
 
   
@@ -62,11 +66,23 @@ function setup() {
 
   // Create a tile map and overlay the canvas.
   myMap = mappa.tileMap(options);
-  myMap.overlay(canvas);
+  if(!resized)
+  {myMap.overlay(canvas);}
+  else{
+    newCanvas = createCanvas(windowWidth, windowHeight);
+    myMap.overlay(newCanvas);
+  }
 
 }
 
 var loaded = false;
+
+function windowResized() {
+
+  resizeCanvas(windowWidth, windowHeight);
+  console.log("resized");
+
+}
 
 function draw() {
 
@@ -91,7 +107,7 @@ function draw() {
   }
 //image(pg,windowWidth/2,0);
  
-  
+//rect(width/2, 0, width/2, height);
 }
 
 
@@ -138,30 +154,4 @@ function loadPoiCoord() {
     }
  
 
-
-//   //iterate trough the pois object. If it contains a PoI transform the latitude and longitude to pixels, and create a new instance of the class PoI
-//   for (let i = 0; i < pois.length; i++) {
-
-//     if (pois[i].properties.PoI) {
-
-//       var pos = myMap.latLngToPixel(pois[i].geometry.coordinates[1], pois[i].geometry.coordinates[0]);
-// //console.log(pois[i].geometry.coordinates[1]);
-//       // Creates an instance of PoI with the position data of every point fro the data 
-//       var poi = new PoI(
-//         //lat, lng, x, y, w, h, title
-//         pois[i].geometry.coordinates[1],
-//         pois[i].geometry.coordinates[0],
-//         pos.x,
-//         pos.y,
-//         iconWidth,
-//         iconHeight,
-//         pois[i].properties.PoI
-        
-//       );
-//       console.log(poiPoints);
-
-//       poiPoints.push(poi);
-//     }
-//     loaded = true;
-//   }
 }
